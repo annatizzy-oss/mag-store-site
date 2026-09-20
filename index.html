@@ -220,7 +220,7 @@ footer{background:var(--preto);color:#fff;text-align:center;padding:35px 20px}fo
 <script>
 function buscarProduto(event){event.preventDefault();const termo=document.getElementById('campoBusca').value.trim().toLowerCase();const cards=document.querySelectorAll('.produto');let encontrados=0;cards.forEach(card=>{const ok=!termo||card.innerText.toLowerCase().includes(termo);card.style.display=ok?'flex':'none';if(ok)encontrados++;});document.getElementById('ofertas').scrollIntoView({behavior:'smooth'});if(termo&&encontrados===0)alert('Nenhum produto encontrado. Tente outro termo.');}
 const magModal = document.getElementById("magModal");
-const magBotao = document.querySelector(".mag-inteligente-btn");
+
 const magFechar = document.querySelector(".mag-modal-fechar");
 const analisesMag = {
   "iron-plus": {
@@ -230,32 +230,69 @@ const analisesMag = {
     custoBeneficio: "Compare o preço por frasco, volume, composição e quantidade de doses com outras opções de ferro líquido.",
     atencao: "Suplementos de ferro não devem ser escolhidos apenas pelo preço. Confira a composição e siga a orientação de um profissional de saúde quando houver indicação de suplementação.",
     resumo: "A MAG recomenda comparar composição, quantidade por dose e custo por porção antes de decidir."
-  }
-};  
-if (magBotao && magModal) {
-  magBotao.addEventListener("click", function () {
-    const produto = magBotao.closest(".produto");
-    const chave = produto ? produto.dataset.mag : null;
-    const analise = chave ? analisesMag[chave] : null;
+ },
+"magnesio-elemental": {
+  titulo: "Magnésio Elemental True Source",
+  pontosFortes: "Produto em cápsulas, com apresentação prática para quem está comparando suplementos de magnésio.",
+  indicado: "Para quem procura um suplemento de magnésio e quer comparar composição, quantidade por dose e número de cápsulas.",
+  custoBeneficio: "Compare o preço por dose, a quantidade de magnésio informada no rótulo e o número de porções do frasco.",
+  atencao: "Confira a composição, a quantidade indicada por porção e as orientações do fabricante. A necessidade de suplementação deve ser avaliada individualmente.",
+  resumo: "Compare principalmente composição, quantidade por dose, número de porções e custo por porção."
+}  
+};
+document.querySelectorAll(".produto").forEach(function (produto) {
+  const nome = produto.querySelector(".produto-nome");
 
-    if (analise) {
-      const titulo = magModal.querySelector("h2");
-      const itens = magModal.querySelectorAll(".mag-analise-item p");
+  if (nome && nome.textContent.includes("Magnésio Elemental True Source")) {
+    produto.dataset.mag = "magnesio-elemental";
 
-      titulo.textContent = analise.titulo;
+    if (!produto.querySelector(".mag-inteligente")) {
+      const magBox = document.createElement("div");
+      magBox.className = "mag-inteligente";
 
-      if (itens[0]) itens[0].textContent = analise.pontosFortes;
-      if (itens[1]) itens[1].textContent = analise.indicado;
-      if (itens[2]) itens[2].textContent = analise.custoBeneficio;
-      if (itens[3]) itens[3].textContent = analise.atencao;
-    const resumoMag = document.getElementById("magResumo");
-if (resumoMag) resumoMag.textContent = analise.resumo;  
+      magBox.innerHTML = `
+        <div class="mag-inteligente-titulo">
+          ✦ <span>MAG Inteligente</span>
+        </div>
+        <div class="mag-inteligente-texto">
+          Análise de compra personalizada para este produto.
+        </div>
+        <button class="mag-inteligente-btn" type="button">
+          Ver análise
+        </button>
+      `;
+
+      produto.querySelector(".produto-info").appendChild(magBox);
     }
+  }
+});
+const magBotoes = document.querySelectorAll(".mag-inteligente-btn");  
+if (magBotoes.length && magModal) {
+  magBotoes.forEach(function (botao) {
+    botao.addEventListener("click", function () {
+      const produto = botao.closest(".produto");
+      const chave = produto ? produto.dataset.mag : null;
+      const analise = chave ? analisesMag[chave] : null;
 
-    magModal.classList.add("ativo");
+      if (analise) {
+        const titulo = magModal.querySelector("h2");
+        const itens = magModal.querySelectorAll(".mag-analise-item p");
+
+        titulo.textContent = analise.titulo;
+
+        if (itens[0]) itens[0].textContent = analise.pontosFortes;
+        if (itens[1]) itens[1].textContent = analise.indicado;
+        if (itens[2]) itens[2].textContent = analise.custoBeneficio;
+        if (itens[3]) itens[3].textContent = analise.atencao;
+
+        const resumoMag = document.getElementById("magResumo");
+        if (resumoMag) resumoMag.textContent = analise.resumo;
+      }
+
+      magModal.classList.add("ativo");
+    });
   });
 }
-
 
 if (magFechar && magModal) {
   magFechar.addEventListener("click", function () {
