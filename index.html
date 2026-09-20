@@ -51,7 +51,103 @@ footer{background:var(--preto);color:#fff;text-align:center;padding:35px 20px}fo
   padding:9px 14px;
   font-weight:700;
   cursor:pointer;
+}
+/* MAG Inteligente - versão compacta */
+.mag-inteligente{
+  margin-top:12px;
+  padding:10px;
+  text-align:center;
+  background:#fffaf0;
+  border:1px solid var(--ouro);
+  border-radius:10px;
+}
+
+.mag-inteligente-titulo{
+  margin:0;
+  font-size:14px;
+}
+
+.mag-inteligente-texto{
+  display:none;
+}
+
+.mag-inteligente-btn{
+  width:100%;
+  margin-top:7px;
+  padding:8px 10px;
+  font-size:13px;
+  transition:transform .2s ease;
+}
+
+.mag-inteligente-btn:hover{
+  transform:translateY(-1px);
+}
+/* Janela do MAG Inteligente */
+.mag-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.65);
+  padding:20px;
+  align-items:center;
+  justify-content:center;
+}
+
+.mag-modal.ativo{
+  display:flex;
+}
+
+.mag-modal-conteudo{
+  position:relative;
+  width:100%;
+  max-width:520px;
+  max-height:85vh;
+  overflow-y:auto;
+  background:#fff;
+  border:2px solid var(--ouro);
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.mag-modal-fechar{
+  position:absolute;
+  top:12px;
+  right:14px;
+  border:0;
+  background:transparent;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.mag-modal-selo{
+  display:inline-block;
+  color:var(--ouro);
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.mag-modal-conteudo h2{
+  margin:4px 0 20px;
+  color:var(--preto);
+}
+
+.mag-analise-item{
+  padding:13px 0;
+  border-top:1px solid var(--borda);
+}
+
+.mag-analise-item strong{
+  color:var(--preto);
+}
+
+.mag-analise-item p{
+  margin:5px 0 0;
+  color:#555;
+  line-height:1.45;
 }  
+  
 </style>
 </head>
 <body>
@@ -88,8 +184,66 @@ footer{background:var(--preto);color:#fff;text-align:center;padding:35px 20px}fo
 <section class="confianca" id="ajuda"><div class="confianca-interna"><div class="confianca-item"><strong>Compra no anúncio original</strong><p>O pagamento e a entrega são realizados pela plataforma do vendedor.</p></div><div class="confianca-item"><strong>Links identificados</strong><p>Os botões dos produtos podem conter links de afiliado.</p></div><div class="confianca-item"><strong>Preço atualizado no anúncio</strong><p>Valores e disponibilidade podem mudar; confira sempre a página do produto.</p></div></div></section>
 </main>
 <footer><img src="mag-store-logo.png" alt="MAG STORE"><p>MAG STORE — Achados que valem a pena.</p><p class="aviso-afiliado">A MAG STORE pode receber comissão por compras qualificadas feitas pelos links indicados, sem custo adicional para você.</p></footer>
+ <div id="magModal" class="mag-modal">
+  <div class="mag-modal-conteudo">
+    <button class="mag-modal-fechar" type="button" aria-label="Fechar">×</button>
+
+    <div class="mag-modal-selo">✦ MAG Inteligente</div>
+
+    <h2>Análise inteligente</h2>
+
+    <div class="mag-analise-item">
+      <strong>✓ Pontos fortes</strong>
+      <p>Veja os principais benefícios deste produto.</p>
+    </div>
+
+    <div class="mag-analise-item">
+      <strong>◎ Para quem é indicado</strong>
+      <p>Entenda para qual necessidade este produto pode ser uma boa opção.</p>
+    </div>
+
+    <div class="mag-analise-item">
+      <strong>⚖ Custo-benefício</strong>
+      <p>Compare características e preço antes de decidir.</p>
+    </div>
+
+    <div class="mag-analise-item">
+      <strong>! Pontos de atenção</strong>
+      <p>Confira detalhes importantes antes da compra.</p>
+    </div>
+  </div>
+</div>
 <script>
 function buscarProduto(event){event.preventDefault();const termo=document.getElementById('campoBusca').value.trim().toLowerCase();const cards=document.querySelectorAll('.produto');let encontrados=0;cards.forEach(card=>{const ok=!termo||card.innerText.toLowerCase().includes(termo);card.style.display=ok?'flex':'none';if(ok)encontrados++;});document.getElementById('ofertas').scrollIntoView({behavior:'smooth'});if(termo&&encontrados===0)alert('Nenhum produto encontrado. Tente outro termo.');}
+const magModal = document.getElementById("magModal");
+const magBotao = document.querySelector(".mag-inteligente-btn");
+const magFechar = document.querySelector(".mag-modal-fechar");
+
+if (magBotao && magModal) {
+  magBotao.addEventListener("click", function () {
+    magModal.classList.add("ativo");
+  });
+}
+
+if (magFechar && magModal) {
+  magFechar.addEventListener("click", function () {
+    magModal.classList.remove("ativo");
+  });
+}
+
+if (magModal) {
+  magModal.addEventListener("click", function (event) {
+    if (event.target === magModal) {
+      magModal.classList.remove("ativo");
+    }
+  });
+}
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape" && magModal) {
+    magModal.classList.remove("ativo");
+  }
+}); 
 </script>
 </body>
 </html>
