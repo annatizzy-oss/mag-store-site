@@ -300,22 +300,57 @@ document.querySelectorAll(".produto").forEach(function (produto) {
 
 const nomeProduto = nome ? nome.textContent.trim() : "";
 
+const termosIgnorados = [
+  "true", "source", "kit", "capsulas", "unidades",
+  "sabor", "com", "para"
+];
 
-const produtoEncontrado = Object.keys(analisesMag).find(function (chave) {
-  const titulo = analisesMag[chave].titulo;
-  const palavras = titulo.toLowerCase().split(" ").filter(function (palavra) {
-    return palavra.length > 3;
-  });
+function normalizarTexto(texto) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
 
-  const nomeNormalizado = nomeProduto.toLowerCase();
+const nomeNormalizado = normalizarTexto(nomeProduto);
 
-  return palavras.filter(function (palavra) {
-    return nomeNormalizado.includes(palavra);
-  }).length >= Math.min(2, palavras.length);
-});
+const produtoEncontrado = Object.keys(analisesMag)
+  .map(function (chave) {
+    const tituloNormalizado = normalizarTexto(analisesMag[chave].titulo);
 
-if (produtoEncontrado) {
-  produto.dataset.mag = produtoEncontrado;
+    const palavras = tituloNormalizado
+      .split(/\s+/)
+      .filter(function (palavra) {
+        return palavra.length > 2 &&
+          !termosIgnorados.includes(palavra);
+      });
+
+    const pontos = palavras.filter(function (palavra) {
+      return nomeNormalizado.includes(palavra);
+    }).length;
+
+    return {
+      chave: chave,
+      pontos: pontos,
+      total: palavras.length
+    };
+  })
+  .filter(function (resultado) {
+    return resultado.pontos > 0;
+  })
+  .sort(function (a, b) {
+    if (b.pontos !== a.pontos) {
+      return b.pontos - a.pontos;
+    }
+    return a.total - b.total;
+  })[0];
+
+const chaveProduto = produtoEncontrado
+  ? produtoEncontrado.chave
+  : null;
+
+if (chaveProduto) {
+  produto.dataset.mag = chaveProduto;
     if (!produto.querySelector(".mag-inteligente")) {
       const magBox = document.createElement("div");
       magBox.className = "mag-inteligente";
