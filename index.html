@@ -163,7 +163,7 @@ footer{background:var(--preto);color:#fff;text-align:center;padding:35px 20px}fo
 <article class="produto"><div class="produto-foto"><img loading="lazy" src="https://lpvfaststore.vtexassets.com/arquivos/ids/188655/true-source-true-nac-600mg-n-acetil-l-cisteina-30-capsulas.jpg?v=638773917480800000" alt="True NAC 30 Cápsulas"></div><div class="produto-info"><div class="produto-nome">True NAC – 30 Cápsulas True Source</div><div class="avaliacao"><strong>★</strong> Confira detalhes no anúncio</div><div class="preco">Ver oferta</div><a class="botao-produto" href="https://meli.la/1zTZhdb" target="_blank" rel="noopener noreferrer sponsored">Ver produto</a><div class="afiliado">Link de afiliado</div></div></article>
 </div></section>
 <section id="vendidos" class="secao"><div class="cabecalho-secao"><div><h2>Mais vendidos</h2><p>Mais opções para você conhecer.</p></div></div><div class="produtos">
-<article class="produto"><div class="produto-foto"><img loading="lazy" src="https://images.tcdn.com.br/img/img_prod/716778/liquid_iron_plus_baby_kids_ferro_multivitaminico_truesource_2101_1_2152dd44c83a26327ce55bdee128054d.png" alt="Liquid Iron Plus True Source"></div><div class="produto-info"><div class="produto-nome">Iron Plus True Source – Ferro em Gotas 30 ml</div><div class="avaliacao"><strong>★</strong> Confira detalhes no anúncio</div><div class="preco">Ver oferta</div><a class="botao-produto" href="https://meli.la/1Aq2VdL" target="_blank" rel="noopener noreferrer sponsored">Ver produto</a><div class="afiliado">Link de afiliado</div>
+<article class="produto" data-mag="iron-plus"><div class="produto-foto"><img loading="lazy" src="https://images.tcdn.com.br/img/img_prod/716778/liquid_iron_plus_baby_kids_ferro_multivitaminico_truesource_2101_1_2152dd44c83a26327ce55bdee128054d.png" alt="Liquid Iron Plus True Source"></div><div class="produto-info"><div class="produto-nome">Iron Plus True Source – Ferro em Gotas 30 ml</div><div class="avaliacao"><strong>★</strong> Confira detalhes no anúncio</div><div class="preco">Ver oferta</div><a class="botao-produto" href="https://meli.la/1Aq2VdL" target="_blank" rel="noopener noreferrer sponsored">Ver produto</a><div class="afiliado">Link de afiliado</div>
 <div class="mag-inteligente">
   <div class="mag-inteligente-titulo">
     ✦ <span>MAG Inteligente</span>
@@ -211,6 +211,10 @@ footer{background:var(--preto);color:#fff;text-align:center;padding:35px 20px}fo
       <strong>! Pontos de atenção</strong>
       <p>Confira detalhes importantes antes da compra.</p>
     </div>
+   <div class="mag-analise-item mag-resumo">
+  <strong>✦ Resumo MAG</strong>
+  <p id="magResumo">Resumo da análise do produto.</p>
+</div> 
   </div>
 </div>
 <script>
@@ -218,12 +222,40 @@ function buscarProduto(event){event.preventDefault();const termo=document.getEle
 const magModal = document.getElementById("magModal");
 const magBotao = document.querySelector(".mag-inteligente-btn");
 const magFechar = document.querySelector(".mag-modal-fechar");
-
+const analisesMag = {
+  "iron-plus": {
+    titulo: "Iron Plus True Source",
+    pontosFortes: "Apresentação em gotas, que pode facilitar a administração e o ajuste da quantidade conforme a orientação de uso do produto.",
+    indicado: "Para quem procura um suplemento de ferro em apresentação líquida e quer comparar composição, quantidade e modo de uso antes da compra.",
+    custoBeneficio: "Compare o preço por frasco, volume, composição e quantidade de doses com outras opções de ferro líquido.",
+    atencao: "Suplementos de ferro não devem ser escolhidos apenas pelo preço. Confira a composição e siga a orientação de um profissional de saúde quando houver indicação de suplementação.",
+    resumo: "A MAG recomenda comparar composição, quantidade por dose e custo por porção antes de decidir."
+  }
+};  
 if (magBotao && magModal) {
   magBotao.addEventListener("click", function () {
+    const produto = magBotao.closest(".produto");
+    const chave = produto ? produto.dataset.mag : null;
+    const analise = chave ? analisesMag[chave] : null;
+
+    if (analise) {
+      const titulo = magModal.querySelector("h2");
+      const itens = magModal.querySelectorAll(".mag-analise-item p");
+
+      titulo.textContent = analise.titulo;
+
+      if (itens[0]) itens[0].textContent = analise.pontosFortes;
+      if (itens[1]) itens[1].textContent = analise.indicado;
+      if (itens[2]) itens[2].textContent = analise.custoBeneficio;
+      if (itens[3]) itens[3].textContent = analise.atencao;
+    const resumoMag = document.getElementById("magResumo");
+if (resumoMag) resumoMag.textContent = analise.resumo;  
+    }
+
     magModal.classList.add("ativo");
   });
 }
+
 
 if (magFechar && magModal) {
   magFechar.addEventListener("click", function () {
