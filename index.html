@@ -300,24 +300,15 @@ document.querySelectorAll(".produto").forEach(function (produto) {
 
 const nomeProduto = nome ? nome.textContent.trim() : "";
 
-const produtosMag = {
-  "Iron Plus True Source": "iron-plus",
-  "Magnésio Elemental True Source": "magnesio-elemental",
-  "Cúrcuma Biomax": "curcuma-biomax",
-  "True NAC": "true-nac",
-  "Vitamina D True Source": "vitamina-d",
-  "Lenços Umedecidos Pampers": "pampers-lencos",
-  "Kit 12 Potes Herméticos Electrolux": "kit-potes-electrolux",
-  "Kit 3 Tigelas Electrolux": "kit-tigelas-electrolux"
-};
 
-const produtoEncontrado = Object.keys(produtosMag).find(function (texto) {
-  return nomeProduto.includes(texto);
+  
+
+const produtoEncontrado = Object.keys(analisesMag).find(function (chave) {
+  return nomeProduto.includes(analisesMag[chave].titulo);
 });
 
 if (produtoEncontrado) {
-  produto.dataset.mag = produtosMag[produtoEncontrado]; 
-
+  produto.dataset.mag = produtoEncontrado;
     if (!produto.querySelector(".mag-inteligente")) {
       const magBox = document.createElement("div");
       magBox.className = "mag-inteligente";
