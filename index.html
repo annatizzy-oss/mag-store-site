@@ -225,26 +225,98 @@ const magFechar = document.querySelector(".mag-modal-fechar");
 const analisesMag = {
   "iron-plus": {
     titulo: "Iron Plus True Source",
-    pontosFortes: "Apresentação em gotas, que pode facilitar a administração e o ajuste da quantidade conforme a orientação de uso do produto.",
-    indicado: "Para quem procura um suplemento de ferro em apresentação líquida e quer comparar composição, quantidade e modo de uso antes da compra.",
-    custoBeneficio: "Compare o preço por frasco, volume, composição e quantidade de doses com outras opções de ferro líquido.",
-    atencao: "Suplementos de ferro não devem ser escolhidos apenas pelo preço. Confira a composição e siga a orientação de um profissional de saúde quando houver indicação de suplementação.",
+    pontosFortes: "Apresentação em gotas, prática para comparar quantidade por dose e composição do produto.",
+    indicado: "Para quem procura um suplemento de ferro líquido e deseja comparar composição, quantidade por dose e apresentação.",
+    custoBeneficio: "Compare preço por frasco, volume, composição e quantidade de doses com outras opções de ferro líquido.",
+    atencao: "Confira a composição, a quantidade indicada por porção e as orientações do fabricante antes da compra.",
     resumo: "A MAG recomenda comparar composição, quantidade por dose e custo por porção antes de decidir."
- },
-"magnesio-elemental": {
-  titulo: "Magnésio Elemental True Source",
-  pontosFortes: "Produto em cápsulas, com apresentação prática para quem está comparando suplementos de magnésio.",
-  indicado: "Para quem procura um suplemento de magnésio e quer comparar composição, quantidade por dose e número de cápsulas.",
-  custoBeneficio: "Compare o preço por dose, a quantidade de magnésio informada no rótulo e o número de porções do frasco.",
-  atencao: "Confira a composição, a quantidade indicada por porção e as orientações do fabricante. A necessidade de suplementação deve ser avaliada individualmente.",
-  resumo: "Compare principalmente composição, quantidade por dose, número de porções e custo por porção."
-}  
+  },
+
+  "magnesio-elemental": {
+    titulo: "Magnésio Elemental True Source",
+    pontosFortes: "Produto em cápsulas, com apresentação prática para quem está comparando suplementos de magnésio.",
+    indicado: "Para quem procura um suplemento de magnésio e quer comparar composição, quantidade por dose e número de cápsulas.",
+    custoBeneficio: "Compare o preço por dose, a quantidade de magnésio informada no rótulo e o número de porções do frasco.",
+    atencao: "Confira a composição, a quantidade indicada por porção e as orientações do fabricante.",
+    resumo: "Compare principalmente composição, quantidade por dose, número de porções e custo por porção."
+  },
+
+  "curcuma-biomax": {
+    titulo: "Cúrcuma Biomax Lipossomal True Source",
+    pontosFortes: "Opção em cápsulas para quem está comparando produtos à base de cúrcuma e diferentes formulações.",
+    indicado: "Para quem deseja comparar apresentação, composição, quantidade por dose e número de cápsulas.",
+    custoBeneficio: "Considere o número de doses, a composição declarada e o custo por porção ao comparar alternativas.",
+    atencao: "Confira ingredientes, quantidade por porção e orientações do fabricante antes da compra.",
+    resumo: "A MAG recomenda comparar formulação, quantidade por dose, número de porções e preço."
+  },
+
+  "true-nac": {
+    titulo: "True NAC True Source",
+    pontosFortes: "Apresentação em cápsulas que facilita a comparação de quantidade por dose, número de cápsulas e composição.",
+    indicado: "Para quem está pesquisando suplementos de NAC e deseja comparar diferentes apresentações.",
+    custoBeneficio: "Compare quantidade por cápsula ou porção, número de doses do frasco e preço por porção.",
+    atencao: "Confira a composição e as informações do rótulo e do fabricante antes de decidir.",
+    resumo: "Compare composição, quantidade por dose, número de cápsulas e custo por porção."
+  },
+
+  "vitamina-d": {
+    titulo: "Vitamina D True Source",
+    pontosFortes: "Apresentação líquida em gotas, permitindo observar facilmente quantidade por dose e rendimento do frasco.",
+    indicado: "Para quem procura vitamina D em apresentação líquida e quer comparar concentração, volume e rendimento.",
+    custoBeneficio: "Compare concentração informada, quantidade de doses do frasco e custo por porção.",
+    atencao: "Verifique cuidadosamente a concentração e a porção indicada no rótulo antes da compra.",
+    resumo: "A MAG recomenda comparar concentração, rendimento do frasco e custo por dose."
+  },
+
+  "pampers-lencos": {
+    titulo: "Lenços Umedecidos Pampers – 192 Unidades",
+    pontosFortes: "Pacote com grande quantidade de unidades, útil para comparar rendimento e preço por lenço.",
+    indicado: "Para quem utiliza lenços umedecidos com frequência e quer comparar quantidade, embalagem e custo por unidade.",
+    custoBeneficio: "Divida o preço pela quantidade total de lenços para comparar o custo por unidade com outros pacotes.",
+    atencao: "Confira quantidade, versão do produto, características da embalagem e informações do anúncio.",
+    resumo: "Compare principalmente preço por unidade, quantidade total e características da versão anunciada."
+  },
+
+  "kit-potes-electrolux": {
+    titulo: "Kit 12 Potes Herméticos Electrolux",
+    pontosFortes: "Conjunto com várias peças para organização e armazenamento de alimentos.",
+    indicado: "Para quem procura um conjunto de potes e deseja comparar quantidade, tamanhos, material e sistema de fechamento.",
+    custoBeneficio: "Compare o preço do conjunto com o número de peças, capacidades e características dos potes.",
+    atencao: "Confira dimensões, capacidades, material e recomendações de uso informadas no anúncio.",
+    resumo: "A MAG recomenda comparar número de peças, capacidades, material e preço do conjunto."
+  },
+
+  "kit-tigelas-electrolux": {
+    titulo: "Kit 3 Tigelas Electrolux em Aço Inox com Tampa",
+    pontosFortes: "Conjunto de três tigelas com diferentes capacidades e tampas para organização e preparo.",
+    indicado: "Para quem procura tigelas de aço inox e quer um conjunto com tamanhos diferentes.",
+    custoBeneficio: "Compare material, capacidades, quantidade de peças e preço total do conjunto.",
+    atencao: "Confira as capacidades, dimensões, material das tampas e recomendações de uso no anúncio.",
+    resumo: "Compare qualidade do material, capacidades das três peças e preço do conjunto."
+  }
 };
 document.querySelectorAll(".produto").forEach(function (produto) {
   const nome = produto.querySelector(".produto-nome");
 
-  if (nome && nome.textContent.includes("Magnésio Elemental True Source")) {
-    produto.dataset.mag = "magnesio-elemental";
+const nomeProduto = nome ? nome.textContent.trim() : "";
+
+const produtosMag = {
+  "Iron Plus True Source": "iron-plus",
+  "Magnésio Elemental True Source": "magnesio-elemental",
+  "Cúrcuma Biomax": "curcuma-biomax",
+  "True NAC": "true-nac",
+  "Vitamina D True Source": "vitamina-d",
+  "Lenços Umedecidos Pampers": "pampers-lencos",
+  "Kit 12 Potes Herméticos Electrolux": "kit-potes-electrolux",
+  "Kit 3 Tigelas Electrolux": "kit-tigelas-electrolux"
+};
+
+const produtoEncontrado = Object.keys(produtosMag).find(function (texto) {
+  return nomeProduto.includes(texto);
+});
+
+if (produtoEncontrado) {
+  produto.dataset.mag = produtosMag[produtoEncontrado]; 
 
     if (!produto.querySelector(".mag-inteligente")) {
       const magBox = document.createElement("div");
