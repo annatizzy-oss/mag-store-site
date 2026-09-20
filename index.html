@@ -301,10 +301,17 @@ document.querySelectorAll(".produto").forEach(function (produto) {
 const nomeProduto = nome ? nome.textContent.trim() : "";
 
 
-  
-
 const produtoEncontrado = Object.keys(analisesMag).find(function (chave) {
-  return nomeProduto.includes(analisesMag[chave].titulo);
+  const titulo = analisesMag[chave].titulo;
+  const palavras = titulo.toLowerCase().split(" ").filter(function (palavra) {
+    return palavra.length > 3;
+  });
+
+  const nomeNormalizado = nomeProduto.toLowerCase();
+
+  return palavras.filter(function (palavra) {
+    return nomeNormalizado.includes(palavra);
+  }).length >= Math.min(2, palavras.length);
 });
 
 if (produtoEncontrado) {
