@@ -350,55 +350,16 @@ document.querySelectorAll(".produto").forEach(function (produto) {
   const nome = produto.querySelector(".produto-nome");
 
 const nomeProduto = nome ? nome.textContent.trim() : "";
-
-const termosIgnorados = [
-  "true", "source", "kit", "capsulas", "unidades",
-  "sabor", "com", "para"
-];
-
-function normalizarTexto(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-const nomeNormalizado = normalizarTexto(nomeProduto);
-
-const produtoEncontrado = Object.keys(analisesMag)
-  .map(function (chave) {
-    const tituloNormalizado = normalizarTexto(analisesMag[chave].titulo);
-
-    const palavras = tituloNormalizado
-      .split(/\s+/)
-      .filter(function (palavra) {
-        return palavra.length > 2 &&
-          !termosIgnorados.includes(palavra);
-      });
-
-    const pontos = palavras.filter(function (palavra) {
-      return nomeNormalizado.includes(palavra);
-    }).length;
-
-    return {
-      chave: chave,
-      pontos: pontos,
-      total: palavras.length
-    };
-  })
-  .filter(function (resultado) {
-    return resultado.pontos > 0;
-  })
-  .sort(function (a, b) {
-    if (b.pontos !== a.pontos) {
-      return b.pontos - a.pontos;
-    }
-    return a.total - b.total;
-  })[0];
+const produtoEncontrado = Object.entries(produtosMagStore).find(
+  function ([chave, dados]) {
+    return dados.nome === nomeProduto;
+  }
+);
 
 const chaveProduto = produtoEncontrado
-  ? produtoEncontrado.chave
+  ? produtoEncontrado[0]
   : null;
+
 
 if (chaveProduto) {
   produto.dataset.mag = chaveProduto;
