@@ -783,6 +783,19 @@ if (gradeBeleza) {
         <div class="link-afiliado">
           Link de afiliado
         </div>
+      <div class="mag-inteligente">
+  <div class="mag-inteligente-titulo">
+    ✦ <span>MAG Inteligente</span>
+  </div>
+
+  <div class="mag-inteligente-texto">
+    Análise de compra: veja os pontos fortes, custo-benefício e para quem este produto é indicado.
+  </div>
+
+  <button class="mag-inteligente-btn" type="button">
+    Ver análise
+  </button>
+</div>  
 
       </div>
     `;
@@ -931,33 +944,59 @@ document.querySelectorAll("#categorias .categoria").forEach(function (botaoCateg
 
 });
   
-const magBotoes = document.querySelectorAll(".mag-inteligente-btn");  
-if (magBotoes.length && magModal) {
-  magBotoes.forEach(function (botao) {
-    botao.addEventListener("click", function () {
-      const produto = botao.closest(".produto");
-      const chave = produto ? produto.dataset.mag : null;
-      const analise = chave ? analisesMag[chave] : null;
+document.addEventListener("click", function (event) {
+  const botao = event.target.closest(".mag-inteligente-btn");
 
-      if (analise) {
-        const titulo = magModal.querySelector("h2");
-        const itens = magModal.querySelectorAll(".mag-analise-item p");
+  if (!botao || !magModal) return;
 
-        titulo.textContent = analise.titulo;
+  const produto = botao.closest(".produto");
+  const chave = produto ? produto.dataset.mag : null;
+  const analise = chave ? analisesMag[chave] : null;
 
-        if (itens[0]) itens[0].textContent = analise.pontosFortes;
-        if (itens[1]) itens[1].textContent = analise.indicado;
-        if (itens[2]) itens[2].textContent = analise.custoBeneficio;
-        if (itens[3]) itens[3].textContent = analise.atencao;
+  const titulo = magModal.querySelector("h2");
+  const itens = magModal.querySelectorAll(".mag-analise-item p");
+  const resumoMag = document.getElementById("magResumo");
 
-        const resumoMag = document.getElementById("magResumo");
-        if (resumoMag) resumoMag.textContent = analise.resumo;
-      }
+  if (analise) {
+    if (titulo) titulo.textContent = analise.titulo;
 
-      magModal.classList.add("ativo");
-    });
-  });
-}
+    if (itens[0]) itens[0].textContent = analise.pontosFortes;
+    if (itens[1]) itens[1].textContent = analise.indicado;
+    if (itens[2]) itens[2].textContent = analise.custoBeneficio;
+    if (itens[3]) itens[3].textContent = analise.atencao;
+
+    if (resumoMag) resumoMag.textContent = analise.resumo;
+  } else {
+    if (titulo) titulo.textContent = "Análise MAG Inteligente";
+
+    if (itens[0]) {
+      itens[0].textContent =
+        "Produto selecionado pela MAG STORE. Consulte os detalhes completos no anúncio.";
+    }
+
+    if (itens[1]) {
+      itens[1].textContent =
+        "Confira características, variações e indicação diretamente na página do produto.";
+    }
+
+    if (itens[2]) {
+      itens[2].textContent =
+        "Compare o preço e as condições atuais antes da compra.";
+    }
+
+    if (itens[3]) {
+      itens[3].textContent =
+        "Preço, estoque e condições podem mudar no anúncio do vendedor.";
+    }
+
+    if (resumoMag) {
+      resumoMag.textContent =
+        "Consulte o anúncio para verificar as informações atualizadas deste produto.";
+    }
+  }
+
+  magModal.classList.add("ativo");
+});
 
 if (magFechar && magModal) {
   magFechar.addEventListener("click", function () {
