@@ -512,6 +512,15 @@ const chaveProduto = produtoEncontrado
 
 if (chaveProduto) {
   produto.dataset.mag = chaveProduto;
+if (/^beleza-\d{2}$/.test(chaveProduto)) {
+  const imagemProduto = produto.querySelector("img");
+
+  if (imagemProduto) {
+    imagemProduto.src = `imagens/${chaveProduto}.webp`;
+    imagemProduto.alt = nomeProduto;
+    imagemProduto.loading = "lazy";
+  }
+}  
     if (!produto.querySelector(".mag-inteligente")) {
       const magBox = document.createElement("div");
       magBox.className = "mag-inteligente";
