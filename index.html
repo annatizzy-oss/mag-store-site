@@ -249,6 +249,30 @@ html {
     font-size: 13px;
   }
 }  
+
+/* ===== MAG INTELIGENTE — ENCONTRE O PRODUTO IDEAL ===== */
+.mag-finder{max-width:1180px;margin:32px auto 0;padding:0 20px}
+.mag-finder-box{background:linear-gradient(145deg,#0b0d0c,#171914);color:#fff;border:1px solid #c99538;border-radius:20px;padding:28px;box-shadow:0 12px 35px rgba(0,0,0,.12)}
+.mag-finder-box h2{font-size:28px;margin-bottom:8px;color:#efbd4e}
+.mag-finder-box>p{color:#ddd;line-height:1.5;margin-bottom:20px}
+.mag-finder-form{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+.mag-campo label{display:block;font-size:13px;color:#f2cd84;margin-bottom:6px;font-weight:700}
+.mag-campo select{width:100%;padding:12px;border-radius:10px;border:1px solid #d7b15c;background:#fff;color:#171717}
+.mag-encontrar-btn{border:0;border-radius:24px;padding:13px 22px;font-weight:800;cursor:pointer;background:linear-gradient(90deg,#c99538,#efbd4e);color:#111}
+.mag-resultados{display:none;margin-top:22px}
+.mag-resultados.ativo{display:block}
+.mag-resultados h3{color:#efbd4e;margin-bottom:14px}
+.mag-comparacao{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mag-comparacao-card{background:#fff;color:#171717;border-radius:14px;padding:16px;border:1px solid #eadfce}
+.mag-comparacao-card h4{font-size:16px;line-height:1.3;margin-bottom:12px}
+.mag-ficha{font-size:13px;line-height:1.5;color:#555}
+.mag-ficha div{padding:6px 0;border-top:1px solid #eee}
+.mag-ficha strong{color:#171717}
+.mag-resumo-card{margin-top:10px;padding:10px;border-radius:9px;background:#fff8e8;font-size:13px;line-height:1.45}
+.mag-ver-produto{display:block;text-align:center;margin-top:12px;border-radius:22px;padding:10px;font-weight:700;background:#111;color:#fff}
+.mag-nota{margin-top:15px;color:#bbb;font-size:12px;line-height:1.45}
+@media(max-width:800px){.mag-finder-form{grid-template-columns:1fr}.mag-comparacao{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -256,6 +280,39 @@ html {
 <header><div class="principal"><div class="logo-area"><a href="#"><img src="mag-store-logo.png" alt="MAG STORE"></a></div><form class="busca" onsubmit="buscarProduto(event)"><input id="campoBusca" type="search" placeholder="O que você está procurando?" aria-label="Pesquisar produtos"><button type="submit">Buscar</button></form><div class="acoes"><a class="acao" href="#ofertas"><span>★</span>Ofertas</a><a class="acao" href="#vendidos"><span>♡</span>Favoritos</a><a class="acao" href="#novidades"><span>🛒</span>Achados</a></div></div><nav><div class="menu"><a href="#categorias">Categorias</a><a href="#ofertas">Ofertas do dia</a><a href="#vendidos">Mais vendidos</a><a href="#novidades">Novidades</a><a href="#ajuda">Ajuda</a></div></nav></header>
 <main>
 <section class="hero"><h1>Achados que valem a pena</h1><p>Produtos selecionados para facilitar suas escolhas. Ao clicar em “Ver produto”, você será direcionado ao anúncio do vendedor.</p></section>
+<section class="mag-finder" id="mag-encontre">
+  <div class="mag-finder-box">
+    <h2>✦ MAG Inteligente — Encontre o produto ideal</h2>
+    <p>Escolha uma categoria e o que você mais valoriza. A MAG reúne opções do catálogo e mostra informações básicas e um resumo para facilitar a comparação.</p>
+    <div class="mag-finder-form">
+      <div class="mag-campo">
+        <label for="magCategoria">O que você procura?</label>
+        <select id="magCategoria">
+          <option value="Suplementos">Suplementos</option>
+          <option value="Beleza">Beleza</option>
+          <option value="Casa e Cozinha">Casa e Cozinha</option>
+          <option value="Bebê">Bebê & Infantil</option>
+        </select>
+      </div>
+      <div class="mag-campo">
+        <label for="magPrioridade">O que é mais importante?</label>
+        <select id="magPrioridade">
+          <option value="comparar">Comparar características</option>
+          <option value="praticidade">Praticidade</option>
+          <option value="quantidade">Quantidade / rendimento</option>
+          <option value="custo">Custo-benefício</option>
+        </select>
+      </div>
+      <button class="mag-encontrar-btn" type="button" id="magEncontrar">Encontrar opções</button>
+    </div>
+    <div class="mag-resultados" id="magResultados">
+      <h3>Opções para comparar</h3>
+      <div class="mag-comparacao" id="magComparacao"></div>
+      <p class="mag-nota">A MAG usa apenas informações cadastradas no catálogo. Dados não confirmados aparecem como “Não informado”. Preço, estoque e condições finais devem ser conferidos no anúncio.</p>
+    </div>
+  </div>
+</section>
+
 <section id="categorias" class="categorias">
 
   <a class="categoria" href="#casa">
@@ -630,6 +687,73 @@ const produtosMagStore = {
   
 
   
+
+// Informações objetivas disponíveis para a comparação MAG.
+// Quando o catálogo atual não confirma um dado, a interface mostra "Não informado".
+const fichasMag = {
+  "iron-plus": {apresentacao:"Gotas", quantidade:"30 ml", detalhe:"Suplemento de ferro líquido", resumo:"Opção líquida. Compare composição, quantidade por dose, rendimento e custo por porção."},
+  "magnesio-elemental": {apresentacao:"Cápsulas", quantidade:"60 cápsulas", detalhe:"Suplemento de magnésio", resumo:"Compare quantidade de magnésio por porção, número de porções e custo por dose."},
+  "curcuma-biomax": {apresentacao:"Cápsulas", quantidade:"60 cápsulas", detalhe:"Cúrcuma Biomax lipossomal", resumo:"Compare formulação, quantidade por dose, número de porções e preço."},
+  "true-nac": {apresentacao:"Cápsulas", quantidade:"30 cápsulas", detalhe:"NAC", resumo:"Compare composição, quantidade por dose, número de cápsulas e custo por porção."},
+  "vitamina-d": {apresentacao:"Líquida", quantidade:"30 ml", detalhe:"Sabor framboesa", resumo:"Compare concentração informada no anúncio, rendimento do frasco e custo por dose."},
+  "pampers-lencos": {apresentacao:"Lenços umedecidos", quantidade:"192 unidades", detalhe:"Pacote de uso infantil", resumo:"Compare preço por unidade, quantidade total e características da versão anunciada."},
+  "kit-potes-electrolux": {apresentacao:"Kit", quantidade:"12 peças", detalhe:"Potes herméticos", resumo:"Compare número de peças, capacidades, material e preço do conjunto."},
+  "kit-tigelas-electrolux": {apresentacao:"Kit", quantidade:"3 peças", detalhe:"Aço inox com tampa", resumo:"Compare material, capacidades das três peças e preço do conjunto."}
+};
+
+function linkProdutoMag(chave, dados){
+  if (dados.link) return dados.link;
+  const card = document.querySelector(`.produto[data-mag="${chave}"]`);
+  return card?.querySelector(".botao-produto")?.href || "#";
+}
+
+function encontrarOpcoesMag(){
+  const categoria = document.getElementById("magCategoria")?.value;
+  const prioridade = document.getElementById("magPrioridade")?.value;
+  const area = document.getElementById("magComparacao");
+  const resultados = document.getElementById("magResultados");
+  if (!area || !resultados) return;
+
+  const opcoes = Object.entries(produtosMagStore)
+    .filter(([chave,dados]) => dados.categoria === categoria)
+    .slice(0,3);
+
+  area.innerHTML = "";
+
+  if (!opcoes.length){
+    area.innerHTML = '<div class="mag-comparacao-card"><h4>Nenhuma opção cadastrada nesta categoria ainda.</h4><p class="mag-ficha">Novos produtos poderão ser incluídos depois.</p></div>';
+    resultados.classList.add("ativo");
+    return;
+  }
+
+  opcoes.forEach(([chave,dados]) => {
+    const ficha = fichasMag[chave] || {};
+    const analise = analisesMag[chave] || {};
+    const resumo = ficha.resumo || analise.resumo || "Análise em preparação. As informações confirmadas serão adicionadas ao catálogo.";
+    const link = linkProdutoMag(chave,dados);
+    const card = document.createElement("div");
+    card.className = "mag-comparacao-card";
+    card.innerHTML = `
+      <h4>${dados.nome}</h4>
+      <div class="mag-ficha">
+        <div><strong>Apresentação:</strong> ${ficha.apresentacao || "Não informado"}</div>
+        <div><strong>Quantidade:</strong> ${ficha.quantidade || "Não informado"}</div>
+        <div><strong>Informação básica:</strong> ${ficha.detalhe || "Não informado"}</div>
+        <div><strong>Prioridade escolhida:</strong> ${prioridade === "praticidade" ? "Praticidade" : prioridade === "quantidade" ? "Quantidade / rendimento" : prioridade === "custo" ? "Custo-benefício" : "Comparar características"}</div>
+      </div>
+      <div class="mag-resumo-card"><strong>✦ Resumo MAG</strong><br>${resumo}</div>
+      ${link !== "#" ? `<a class="mag-ver-produto" href="${link}" target="_blank" rel="noopener noreferrer sponsored">Ver produto</a>` : ""}
+    `;
+    area.appendChild(card);
+  });
+
+  resultados.classList.add("ativo");
+  resultados.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+document.getElementById("magEncontrar")?.addEventListener("click", encontrarOpcoesMag);
+
+
 // ===== VITRINE AUTOMÁTICA DE BELEZA =====
 
 let secaoBeleza = document.getElementById("beleza");
