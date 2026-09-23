@@ -629,7 +629,7 @@ const produtosMagStore = {
 };
   
 // ===== CRIA AUTOMATICAMENTE OS CARDS DE BELEZA =====
-const secaoBelezaExistente = document.getElementById("beleza");
+const secaoBelezaExistente = document.getElementById("produtos-beleza");
 
 if (!secaoBelezaExistente) {
   const secaoBeleza = document.createElement("section");
@@ -690,9 +690,108 @@ if (!secaoBelezaExistente) {
     gradeBeleza.appendChild(card);
   });
 }  
-  document.querySelectorAll(".produto").forEach(function (produto) {
+ 
   const nome = produto.querySelector(".produto-nome");
+// ===== VITRINE AUTOMÁTICA DE BELEZA =====
 
+let secaoBeleza = document.getElementById("beleza");
+let gradeBeleza = document.getElementById("produtos-beleza");
+
+// Cria a seção de Beleza se ela ainda não existir
+if (!secaoBeleza) {
+  secaoBeleza = document.createElement("section");
+  secaoBeleza.id = "beleza";
+  secaoBeleza.className = "secao";
+
+  secaoBeleza.innerHTML = `
+    <div class="cabecalho-secao">
+      <div></div>
+      <h2>Beleza</h2>
+      <p>Produtos selecionados de maquiagem, cuidados e acessórios.</p>
+    </div>
+
+    <div class="grid-produtos" id="produtos-beleza"></div>
+  `;
+
+  const secaoNovidades = document.getElementById("novidades");
+
+  if (secaoNovidades) {
+    secaoNovidades.parentNode.insertBefore(
+      secaoBeleza,
+      secaoNovidades
+    );
+  } else {
+    document.querySelector("main").appendChild(secaoBeleza);
+  }
+
+  gradeBeleza = document.getElementById("produtos-beleza");
+}
+
+// Se a seção já existia, mas a grade não, cria a grade
+if (!gradeBeleza && secaoBeleza) {
+  gradeBeleza = document.createElement("div");
+  gradeBeleza.id = "produtos-beleza";
+  gradeBeleza.className = "produtos";
+  secaoBeleza.appendChild(gradeBeleza);
+}
+
+// Limpa somente a grade automática de Beleza para evitar duplicação
+if (gradeBeleza) {
+  gradeBeleza.innerHTML = "";
+
+  Object.entries(produtosMagStore).forEach(function ([chave, dados]) {
+    if (dados.categoria !== "Beleza") return;
+
+    const card = document.createElement("article");
+
+    card.className = "produto";
+    card.dataset.mag = chave;
+
+    card.innerHTML = `
+      <div class="produto-foto">
+        <img
+          loading="lazy"
+          src="imagens/${chave}.webp"
+          alt="${dados.nome}"
+        >
+      </div>
+
+      <div class="produto-info">
+
+        <div class="produto-nome">
+          ${dados.nome}
+        </div>
+
+        <div class="avaliacao">
+          <strong>★</strong>
+          Confira detalhes no anúncio
+        </div>
+
+        <div class="preco">
+          Ver oferta
+        </div>
+
+        <a
+          class="botao-produto"
+          href="${dados.link}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ver produto
+        </a>
+
+        <div class="link-afiliado">
+          Link de afiliado
+        </div>
+
+      </div>
+    `;
+
+    gradeBeleza.appendChild(card);
+  });
+}
+document.querySelectorAll(".produto").forEach(function (produto) {
+  const nome = produto.querySelector(".produto-nome");  
 const nomeProduto = nome ? nome.textContent.trim() : "";
 const produtoEncontrado = Object.entries(produtosMagStore).find(
   function ([chave, dados]) {
