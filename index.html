@@ -147,15 +147,148 @@ footer{background:var(--preto);color:#fff;text-align:center;padding:35px 20px}fo
   color:#555;
   line-height:1.45;
 }  
-  
+/* ===== CATEGORIAS MAG STORE ===== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 22px;
+  max-width: 1050px;
+  margin: 30px auto 38px;
+  padding: 0 20px;
+  align-items: start;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  text-decoration: none;
+  color: #171717;
+  cursor: pointer;
+  transition: transform .25s ease;
+}
+
+.categoria-icone {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 34px;
+  font-weight: 700;
+
+  color: #171717;
+  background: linear-gradient(145deg, #f7ead0, #d4af37);
+
+  border: 2px solid #d4af37;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.13),
+    0 0 0 4px rgba(212,175,55,.10);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    background .25s ease;
+}
+
+.categoria p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.categoria:hover {
+  transform: translateY(-4px);
+}
+
+.categoria:hover .categoria-icone {
+  background: linear-gradient(145deg, #f9e8b4, #c99b25);
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18),
+    0 0 0 5px rgba(212,175,55,.15);
+}
+
+.categoria:active .categoria-icone {
+  transform: scale(.95);
+}
+
+/* Tablet */
+@media (max-width: 850px) {
+  .categorias {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Celular */
+@media (max-width: 520px) {
+  .categorias {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 10px;
+    padding: 0 10px;
+  }
+
+  .categoria-icone {
+    width: 72px;
+    height: 72px;
+    font-size: 29px;
+  }
+
+  .categoria p {
+    font-size: 13px;
+  }
+}  
 </style>
 </head>
 <body>
 <div class="beneficios"><span>🚚 Frete conforme o anúncio</span><span>◇ Compra segura pela plataforma</span><span>▣ Diversas formas de pagamento</span></div>
 <header><div class="principal"><div class="logo-area"><a href="#"><img src="mag-store-logo.png" alt="MAG STORE"></a></div><form class="busca" onsubmit="buscarProduto(event)"><input id="campoBusca" type="search" placeholder="O que você está procurando?" aria-label="Pesquisar produtos"><button type="submit">Buscar</button></form><div class="acoes"><a class="acao" href="#ofertas"><span>★</span>Ofertas</a><a class="acao" href="#vendidos"><span>♡</span>Favoritos</a><a class="acao" href="#novidades"><span>🛒</span>Achados</a></div></div><nav><div class="menu"><a href="#categorias">Categorias</a><a href="#ofertas">Ofertas do dia</a><a href="#vendidos">Mais vendidos</a><a href="#novidades">Novidades</a><a href="#ajuda">Ajuda</a></div></nav></header>
 <main>
-<section class="hero"><img src="mag-store-logo.png" alt="MAG STORE"><h1>Achados que valem a pena</h1><p>Produtos selecionados para facilitar suas escolhas. Ao clicar em “Ver produto”, você será direcionado ao anúncio do vendedor.</p></section>
-<section id="categorias" class="categorias"><div class="categoria"><div class="categoria-icone">⌂</div><p>Casa</p></div><div class="categoria"><div class="categoria-icone">♨</div><p>Cozinha</p></div><div class="categoria"><div class="categoria-icone">✦</div><p>Saúde & Bem-estar</p></div><div class="categoria"><div class="categoria-icone">☺</div><p>Bebê & Infantil</p></div><div class="categoria"><div class="categoria-icone">▣</div><p>Eletrônicos</p></div></section>
+<section class="hero"><h1>Achados que valem a pena</h1><p>Produtos selecionados para facilitar suas escolhas. Ao clicar em “Ver produto”, você será direcionado ao anúncio do vendedor.</p></section>
+<section id="categorias" class="categorias">
+
+  <a class="categoria" href="#casa">
+    <div class="categoria-icone">⌂</div>
+    <p>Casa</p>
+  </a>
+
+  <a class="categoria" href="#cozinha">
+    <div class="categoria-icone">♨</div>
+    <p>Cozinha</p>
+  </a>
+
+  <a class="categoria" href="#saude">
+    <div class="categoria-icone">✚</div>
+    <p>Saúde &amp; Bem-estar</p>
+  </a>
+
+  <a class="categoria" href="#bebe">
+    <div class="categoria-icone">♡</div>
+    <p>Bebê &amp; Infantil</p>
+  </a>
+
+  <a class="categoria" href="#eletronicos">
+    <div class="categoria-icone">▣</div>
+    <p>Eletrônicos</p>
+  </a>
+
+  <a class="categoria" href="#beleza">
+    <div class="categoria-icone">✦</div>
+    <p>Beleza</p>
+  </a>
+
+</section>
 <section id="ofertas" class="secao"><div class="cabecalho-secao"><div><h2>Ofertas do dia</h2><p>Confira alguns dos achados selecionados.</p></div></div><div class="produtos">
 <article class="produto"><div class="produto-foto"><img loading="lazy" src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-lmzz6ul2tf0j7a" alt="Kit 12 Potes Herméticos Electrolux"></div><div class="produto-info"><div class="produto-nome">Kit 12 Potes Herméticos Electrolux</div><div class="avaliacao"><strong>★</strong> Confira detalhes no anúncio</div><div class="preco">Ver oferta</div><a class="botao-produto" href="https://meli.la/2xoPQxH" target="_blank" rel="noopener noreferrer sponsored">Ver produto</a><div class="afiliado">Link de afiliado</div></div></article>
 <article class="produto"><div class="produto-foto"><img loading="lazy" src="imagens/7fcf7855-4e46-457b-87a6-96e6738c2762(1).png" alt="True Cúrcuma Biomax"></div><div class="produto-info"><div class="produto-nome">True Source Cúrcuma Biomax Lipossomal 60 Cápsulas</div><div class="avaliacao"><strong>★</strong> Confira detalhes no anúncio</div><div class="preco">Ver oferta</div><a class="botao-produto" href="https://meli.la/2f93LiX" target="_blank" rel="noopener noreferrer sponsored">Ver produto</a><div class="afiliado">Link de afiliado</div></div></article>
@@ -541,6 +674,54 @@ if (/^beleza-\d{2}$/.test(chaveProduto)) {
     }
   }
 });
+// ===== NAVEGAÇÃO POR CATEGORIAS MAG STORE =====
+const categoriasMag = {
+  casa: ["Casa", "Casa e Cozinha"],
+  cozinha: ["Cozinha", "Casa e Cozinha"],
+  saude: ["Saúde", "Saúde & Bem-estar", "Suplementos"],
+  bebe: ["Bebê", "Bebê & Infantil"],
+  eletronicos: ["Eletrônicos"],
+  beleza: ["Beleza"]
+};
+
+document.querySelectorAll("#categorias .categoria").forEach(function (botaoCategoria) {
+  botaoCategoria.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const destino = botaoCategoria.getAttribute("href").replace("#", "");
+    const categoriasAceitas = categoriasMag[destino];
+
+    if (!categoriasAceitas) return;
+
+    let primeiroProduto = null;
+
+    document.querySelectorAll(".produto").forEach(function (produto) {
+      const chave = produto.dataset.mag;
+      const dados = chave ? produtosMagStore[chave] : null;
+
+      if (!dados) {
+        produto.style.display = "none";
+        return;
+      }
+
+      const pertenceCategoria = categoriasAceitas.includes(dados.categoria);
+
+      produto.style.display = pertenceCategoria ? "" : "none";
+
+      if (pertenceCategoria && !primeiroProduto) {
+        primeiroProduto = produto;
+      }
+    });
+
+    if (primeiroProduto) {
+      primeiroProduto.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  });
+});  
+  
 const magBotoes = document.querySelectorAll(".mag-inteligente-btn");  
 if (magBotoes.length && magModal) {
   magBotoes.forEach(function (botao) {
