@@ -316,7 +316,7 @@ html {
 <section id="novidades" class="secao"><div class="cabecalho-secao"><div><h2>Novidades</h2><p>Novos achados serão adicionados aqui.</p></div></div><p style="color:#6f6f6f;line-height:1.6">A MAG STORE está em atualização. Novos produtos entram nesta seção somente depois que o link do anúncio é conferido.</p></section>
 <section class="confianca" id="ajuda"><div class="confianca-interna"><div class="confianca-item"><strong>Compra no anúncio original</strong><p>O pagamento e a entrega são realizados pela plataforma do vendedor.</p></div><div class="confianca-item"><strong>Links identificados</strong><p>Os botões dos produtos podem conter links de afiliado.</p></div><div class="confianca-item"><strong>Preço atualizado no anúncio</strong><p>Valores e disponibilidade podem mudar; confira sempre a página do produto.</p></div></div></section>
 </main>
-<footer><img src="mag-store-logo.png" alt="MAG STORE"><p>MAG STORE — Achados que valem a pena.</p><p class="aviso-afiliado">A MAG STORE pode receber comissão por compras qualificadas feitas pelos links indicados, sem custo adicional para você.</p></footer>
+<footer><p>MAG STORE — Achados que valem a pena.</p><p class="aviso-afiliado">A MAG STORE pode receber comissão por compras qualificadas feitas pelos links indicados, sem custo adicional para você.</p></footer>
  <div id="magModal" class="mag-modal">
   <div class="mag-modal-conteudo">
     <button class="mag-modal-fechar" type="button" aria-label="Fechar">×</button>
@@ -628,7 +628,69 @@ const produtosMagStore = {
 },
 };
   
-document.querySelectorAll(".produto").forEach(function (produto) {
+// ===== CRIA AUTOMATICAMENTE OS CARDS DE BELEZA =====
+const secaoBelezaExistente = document.getElementById("beleza");
+
+if (!secaoBelezaExistente) {
+  const secaoBeleza = document.createElement("section");
+  secaoBeleza.id = "beleza";
+  secaoBeleza.className = "secao";
+
+  secaoBeleza.innerHTML = `
+    <div class="cabecalho-secao">
+      <div></div>
+      <h2>Beleza</h2>
+      <p>Produtos selecionados de maquiagem, cuidados e acessórios.</p>
+    </div>
+    <div class="grid-produtos" id="produtos-beleza"></div>
+  `;
+
+  const secaoNovidades = document.getElementById("novidades");
+
+  if (secaoNovidades) {
+    secaoNovidades.parentNode.insertBefore(secaoBeleza, secaoNovidades);
+  } else {
+    document.querySelector("main").appendChild(secaoBeleza);
+  }
+
+  const gradeBeleza = document.getElementById("produtos-beleza");
+
+  Object.entries(produtosMagStore).forEach(function ([chave, dados]) {
+    if (dados.categoria !== "Beleza") return;
+
+    const card = document.createElement("article");
+    card.className = "produto";
+    card.dataset.mag = chave;
+
+    card.innerHTML = `
+      <div class="produto-foto">
+        <img loading="lazy"
+             src="imagens/${chave}.webp"
+             alt="${dados.nome}">
+      </div>
+
+      <div class="produto-info">
+        <div class="produto-nome">${dados.nome}</div>
+
+        <div class="avaliacao">
+          <strong>★</strong> Confira detalhes no anúncio
+        </div>
+
+        <div class="preco">Ver oferta</div>
+
+        <a class="botao-produto"
+           href="${dados.link}"
+           target="_blank"
+           rel="noopener noreferrer">
+          Ver produto
+        </a>
+      </div>
+    `;
+
+    gradeBeleza.appendChild(card);
+  });
+}  
+  document.querySelectorAll(".produto").forEach(function (produto) {
   const nome = produto.querySelector(".produto-nome");
 
 const nomeProduto = nome ? nome.textContent.trim() : "";
@@ -675,6 +737,7 @@ if (/^beleza-\d{2}$/.test(chaveProduto)) {
   }
 });
 // ===== NAVEGAÇÃO POR CATEGORIAS MAG STORE =====
+
 const categoriasMag = {
   casa: ["Casa", "Casa e Cozinha"],
   cozinha: ["Cozinha", "Casa e Cozinha"],
@@ -684,43 +747,90 @@ const categoriasMag = {
   beleza: ["Beleza"]
 };
 
+// Guarda a forma original de exibição de cada produto.
+// Assim, todos os produtos continuam aparecendo normalmente
+// quando a loja é aberta.
+document.querySelectorAll(".produto").forEach(function (produto) {
+  produto.dataset.displayOriginal = produto.style.display || "";
+});
+
+function mostrarTodosOsProdutos() {
+  document.querySelectorAll(".produto").forEach(function (produto) {
+    produto.style.display = produto.dataset.displayOriginal || "";
+  });
+}
+
+// A loja sempre inicia mostrando todos os produtos.
+mostrarTodosOsProdutos();
+
 document.querySelectorAll("#categorias .categoria").forEach(function (botaoCategoria) {
+
   botaoCategoria.addEventListener("click", function (event) {
     event.preventDefault();
 
-    const destino = botaoCategoria.getAttribute("href").replace("#", "");
+    const href = botaoCategoria.getAttribute("href") || "";
+    const destino = href.replace("#", "");
     const categoriasAceitas = categoriasMag[destino];
 
-    if (!categoriasAceitas) return;
+    if (!categoriasAceitas) {
+      mostrarTodosOsProdutos();
+      return;
+    }
 
-    let primeiroProduto = null;
+    let primeiroProdutoEncontrado = null;
+    let quantidadeEncontrada = 0;
 
     document.querySelectorAll(".produto").forEach(function (produto) {
+
       const chave = produto.dataset.mag;
       const dados = chave ? produtosMagStore[chave] : null;
 
+      // Se o card ainda não estiver cadastrado no registro central,
+      // ele não é apagado nem perdido.
       if (!dados) {
         produto.style.display = "none";
         return;
       }
 
-      const pertenceCategoria = categoriasAceitas.includes(dados.categoria);
+      const pertenceCategoria =
+        categoriasAceitas.includes(dados.categoria);
 
-      produto.style.display = pertenceCategoria ? "" : "none";
+      if (pertenceCategoria) {
+        produto.style.display =
+          produto.dataset.displayOriginal || "";
 
-      if (pertenceCategoria && !primeiroProduto) {
-        primeiroProduto = produto;
+        quantidadeEncontrada++;
+
+        if (!primeiroProdutoEncontrado) {
+          primeiroProdutoEncontrado = produto;
+        }
+
+      } else {
+        produto.style.display = "none";
       }
     });
 
-    if (primeiroProduto) {
-      primeiroProduto.scrollIntoView({
+    // Se não encontrarmos produtos dessa categoria,
+    // restauramos a vitrine em vez de deixar a página vazia.
+    if (quantidadeEncontrada === 0) {
+      mostrarTodosOsProdutos();
+
+      document.getElementById("ofertas")?.scrollIntoView({
         behavior: "smooth",
         block: "start"
       });
+
+      return;
     }
+
+    primeiroProdutoEncontrado?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
   });
-});  
+
+});
   
 const magBotoes = document.querySelectorAll(".mag-inteligente-btn");  
 if (magBotoes.length && magModal) {
