@@ -53,5 +53,18 @@ const produtosMAG = [
   { id:"eletro-35", nome:"Máquina de Gelo Compacta", imagem:"imagens/produto-047.webp", linkAfiliado:"https://meli.la/2ibn78S" },
   { id:"eletro-36", nome:"Liquidificador Philips Walita ProBlend 6", imagem:"imagens/produto-048.webp", linkAfiliado:"https://meli.la/1nGKtpz" },
   { id:"eletro-37", nome:"Limpador a Vapor Portátil com Acessórios", imagem:"imagens/produto-049.webp", linkAfiliado:"https://meli.la/2hsZkaZ" },
-  { id:"eletro-38", nome:"Sanduicheira Mondial Master Grill Inox", imagem:"imagens/produto-050.webp", linkAfiliado:"https://meli.la/1a8aUjp" }
+  { id:"eletro-38", nome:"Sanduicheira Mondial Master Grill Inox", imagem:"imagens/produto-050.webp", linkAfiliado:"https://meli.la/1a8aUjp" },
+{
+  id: "eletro-39",
+  nome: "Chaleira Elétrica Electrolux",
+  imagem: "imagens/produto-051.webp",
+  linkAfiliado: "https://meli.la/21SQfiU"
+},
+{
+  id: "eletro-40",
+  nome: "Máquina de Cupcake Britânia Maker",
+  imagem: "imagens/produto-052.webp",
+  linkAfiliado: "https://meli.la/1guigCZ"
+}
+
 ];
