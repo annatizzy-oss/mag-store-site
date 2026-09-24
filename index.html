@@ -853,6 +853,7 @@ html {
 </div> 
   </div>
 </div>
+<script src="produtos.js"></script>
 <script>
 function buscarProduto(event){event.preventDefault();const termo=document.getElementById('campoBusca').value.trim().toLowerCase();const cards=document.querySelectorAll('.produto');let encontrados=0;cards.forEach(card=>{const ok=!termo||card.innerText.toLowerCase().includes(termo);card.style.display=ok?'flex':'none';if(ok)encontrados++;});document.getElementById('ofertas').scrollIntoView({behavior:'smooth'});if(termo&&encontrados===0)alert('Nenhum produto encontrado. Tente outro termo.');}
 const magModal = document.getElementById("magModal");
