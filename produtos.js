@@ -66,6 +66,7 @@ const produtosMAG = [
   imagem: "imagens/produto-052.webp",
   linkAfiliado: "https://meli.la/1guigCZ"
 }
+  ]; 
 // ===== MAG STORE — SINCRONIZAÇÃO AUTOMÁTICA DOS CARDS =====
 
 document.addEventListener("DOMContentLoaded", function () {
