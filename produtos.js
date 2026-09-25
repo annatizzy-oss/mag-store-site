@@ -66,5 +66,45 @@ const produtosMAG = [
   imagem: "imagens/produto-052.webp",
   linkAfiliado: "https://meli.la/1guigCZ"
 }
+// ===== MAG STORE — SINCRONIZAÇÃO AUTOMÁTICA DOS CARDS =====
 
-];
+document.addEventListener("DOMContentLoaded", function () {
+  if (!Array.isArray(produtosMAG)) {
+    console.error("MAG STORE: produtosMAG não foi carregado.");
+    return;
+  }
+
+  produtosMAG.forEach(function (produto) {
+    const card = document.querySelector(
+      '.produto[data-mag="' + produto.id + '"]'
+    );
+
+    if (!card) return;
+
+    const imagem = card.querySelector(".produto-foto img");
+    const nome = card.querySelector(".produto-nome");
+    const botao = card.querySelector(".botao-produto");
+
+    if (imagem && produto.imagem) {
+      imagem.src = produto.imagem;
+      imagem.alt = produto.nome || "Produto MAG STORE";
+    }
+
+    if (nome && produto.nome) {
+      nome.textContent = produto.nome;
+    }
+
+    if (botao && produto.linkAfiliado) {
+      botao.href = produto.linkAfiliado;
+      botao.target = "_blank";
+      botao.rel = "noopener noreferrer sponsored";
+    }
+  });
+
+  console.log(
+    "MAG STORE: sincronização concluída —",
+    produtosMAG.length,
+    "produtos cadastrados."
+  );
+});
+
